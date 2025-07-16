@@ -71,7 +71,39 @@ export default function Contact() {
             {/* Contact Form */}
             <div className="bg-white rounded-xl shadow-lg p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Send Me a Message</h2>
-              <form className="space-y-6">
+              <form
+                className="space-y-6"
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const data = {
+                    firstName: formData.get('firstName') as string,
+                    lastName: formData.get('lastName') as string,
+                    email: formData.get('email') as string,
+                    subject: formData.get('subject') as string,
+                    message: formData.get('message') as string,
+                  };
+
+                  try {
+                    const response = await fetch('/api/contact', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                      alert('Message sent successfully!');
+                      e.currentTarget.reset();
+                    } else {
+                      alert('Failed to send message. Please try again.');
+                    }
+                  } catch (error) {
+                    alert('Error sending message. Please try again.');
+                  }
+                }}
+              >
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
@@ -82,7 +114,7 @@ export default function Contact() {
                       id="firstName"
                       name="firstName"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-black"
                       placeholder="Your first name"
                     />
                   </div>
@@ -95,7 +127,7 @@ export default function Contact() {
                       id="lastName"
                       name="lastName"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-black"
                       placeholder="Your last name"
                     />
                   </div>
@@ -110,7 +142,7 @@ export default function Contact() {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-black"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -119,20 +151,14 @@ export default function Contact() {
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
                     Subject *
                   </label>
-                  <select
+                  <input
+                    type="text"
                     id="subject"
                     name="subject"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                  >
-                    <option value="">Select a subject</option>
-                    <option value="book-inquiry">Book Inquiry</option>
-                    <option value="school-visit">School Visit Request</option>
-                    <option value="speaking-engagement">Speaking Engagement</option>
-                    <option value="media-inquiry">Media Inquiry</option>
-                    <option value="general">General Question</option>
-                    <option value="other">Other</option>
-                  </select>
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-black"
+                    placeholder="Enter your subject"
+                  />
                 </div>
 
                 <div>
@@ -144,8 +170,8 @@ export default function Contact() {
                     name="message"
                     rows={6}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                    placeholder="Tell me what's on your mind..."
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-black"
+                    placeholder="What would you like to say?"
                   ></textarea>
                 </div>
 
@@ -169,8 +195,8 @@ export default function Contact() {
                     </div>
                     <div>
                       <div className="font-semibold text-gray-900">Email</div>
-                      <a href="mailto:sarah@sarahjohnsonbooks.com" className="text-indigo-600 hover:text-indigo-800">
-                        sarah@sarahjohnsonbooks.com
+                      <a href="mailto:karenquan18@gmail.com" className="text-indigo-600 hover:text-indigo-800">
+                        karenquan18@gmail.com
                       </a>
                     </div>
                   </div>
@@ -277,7 +303,7 @@ export default function Contact() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors placeholder:text-black"
               />
               <button className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
                 Subscribe
